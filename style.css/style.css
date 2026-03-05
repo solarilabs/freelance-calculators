@@ -41,7 +41,6 @@ a { color: inherit; text-decoration: none; }
   top: 0;
   z-index: 1000;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  position: relative;
 }
 
 .brand {
@@ -113,10 +112,11 @@ a { color: inherit; text-decoration: none; }
   background: var(--text);
   border-radius: 2px;
   transition: all 0.3s ease;
+  transform-origin: center center;
 }
 
 .hamburger.active span:nth-child(1) {
-  transform: rotate(45deg) translate(8px, 8px);
+  transform: translateY(9px) rotate(45deg);
 }
 
 .hamburger.active span:nth-child(2) {
@@ -124,7 +124,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 .hamburger.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(8px, -8px);
+  transform: translateY(-9px) rotate(-45deg);
 }
 
 /* Mobile Menu */
@@ -137,9 +137,13 @@ a { color: inherit; text-decoration: none; }
   width: 100%;
   background: var(--card);
   border-bottom: 1px solid var(--border);
-  animation: slideDown 0.3s ease;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   z-index: 999;
+}
+
+.mobile-menu.active {
+  display: block;
+  animation: slideDown 0.3s ease;
 }
 
 @keyframes slideDown {
@@ -166,10 +170,6 @@ a { color: inherit; text-decoration: none; }
 .mobile-menu a:hover {
   color: var(--accent);
   background: rgba(91,141,239,0.05);
-}
-
-.mobile-menu.active {
-  display: block;
 }
 
 /* Responsive */
