@@ -14,7 +14,7 @@
 
     <div class="nav">
       <div class="brand">
-        <span>FreelanceCalc</span>
+        <a href="../index.html/index.html">FreelanceCalc</a>
         <span class="badge">Free tools</span>
       </div>
 
@@ -27,10 +27,27 @@
         <a href="../about.html/about.html">About</a>
         <a href="../privacy.html/privacy.html">Privacy</a>
       </div>
+
+      <button class="hamburger" onclick="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="../ugc.html/ugc.html">UGC</a>
+      <a href="../logo.html/logo.html">Logo</a>
+      <a href="../video.html/video.html">Video Editing</a>
+      <a href="../invoice.html/invoice.html">Invoice</a>
+      <a href="../contract.html/contract.html">Contract</a>
+      <a href="../about.html/about.html">About</a>
+      <a href="../privacy.html/privacy.html">Privacy</a>
     </div>
 
     <div class="hero">
       <h1>Freelance Pricing Calculators</h1>
+      <span class="hero-subtitle">Get fair rates instantly</span>
       <p>
         Fast, simple calculators to help freelancers estimate fair rates.
         No accounts. No AI. Just clean math.
@@ -74,5 +91,22 @@
     </div>
 
   </div>
+
+  <script>
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const hamburger = document.querySelector('.hamburger');
+      menu.classList.toggle('active');
+      hamburger.classList.toggle('active');
+      
+      // Close menu when a link is clicked
+      menu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          menu.classList.remove('active');
+          hamburger.classList.remove('active');
+        });
+      });
+    }
+  </script>
 </body>
 </html>
