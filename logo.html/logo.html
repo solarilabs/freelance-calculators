@@ -11,7 +11,7 @@
     .form-section {
       display: grid;
       gap: 16px;
-      margin-top: 16px;
+      margin-top: 20px;
     }
 
     .form-row {
@@ -35,28 +35,35 @@
     }
 
     input, select {
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(0,0,0,0.12);
-      background: #ffffff;
-      color: #000000;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
       font-size: 14px;
       font-family: inherit;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(91,141,239,0.1);
+      outline: none;
     }
 
     select option {
-      color: #000000;
-      background: #ffffff;
+      color: var(--text);
+      background: var(--card);
     }
 
     input::placeholder {
-      color: rgba(0,0,0,0.3);
+      color: var(--muted);
     }
 
     .button-group {
       display: flex;
-      gap: 10px;
-      margin-top: 16px;
+      gap: 12px;
+      margin-top: 24px;
       flex-wrap: wrap;
     }
 
@@ -66,19 +73,22 @@
     }
 
     .button.secondary {
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,0.12);
+      background: transparent;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      box-shadow: none;
     }
 
     .button.secondary:hover {
-      background: rgba(255,255,255,0.10);
+      background: rgba(91,141,239,0.08);
+      border-color: #4873d1;
+      color: #4873d1;
     }
 
     .pricing-tiers {
       display: grid;
-      gap: 12px;
-      margin-top: 16px;
+      gap: 16px;
+      margin-top: 24px;
     }
 
     @media (min-width: 720px) {
@@ -88,10 +98,17 @@
     }
 
     .price-card {
-      padding: 14px;
+      padding: 16px;
       border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      transition: all 0.2s ease;
+    }
+
+    .price-card:hover {
+      border-color: rgba(91,141,239,0.3);
+      box-shadow: 0 4px 12px rgba(91,141,239,0.1);
     }
 
     .price-card h3 {
@@ -110,11 +127,11 @@
     }
 
     .explanation {
-      margin-top: 14px;
-      padding: 12px;
+      margin-top: 16px;
+      padding: 16px;
       border-radius: 10px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(91,141,239,0.03);
+      border: 1px solid var(--border);
       font-size: 13px;
       color: var(--muted);
       line-height: 1.6;
@@ -123,8 +140,9 @@
     .copy-feedback {
       font-size: 12px;
       color: var(--accent);
-      margin-top: 8px;
+      margin-top: 12px;
       display: none;
+      font-weight: 500;
     }
 
     .copy-feedback.show {
@@ -363,15 +381,22 @@
       const hamburger = document.querySelector('.hamburger');
       menu.classList.toggle('active');
       hamburger.classList.toggle('active');
-      
-      // Close menu when a link is clicked
-      menu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          menu.classList.remove('active');
-          hamburger.classList.remove('active');
-        });
-      });
     }
+
+    // Set up menu link click handlers on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const menu = document.getElementById('mobileMenu');
+      const hamburger = document.querySelector('.hamburger');
+      
+      if (menu && hamburger) {
+        menu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            menu.classList.remove('active');
+            hamburger.classList.remove('active');
+          });
+        });
+      }
+    });
   </script>
 </body>
 </html>

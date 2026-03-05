@@ -98,15 +98,22 @@
       const hamburger = document.querySelector('.hamburger');
       menu.classList.toggle('active');
       hamburger.classList.toggle('active');
-      
-      // Close menu when a link is clicked
-      menu.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          menu.classList.remove('active');
-          hamburger.classList.remove('active');
-        });
-      });
     }
+
+    // Set up menu link click handlers on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const menu = document.getElementById('mobileMenu');
+      const hamburger = document.querySelector('.hamburger');
+      
+      if (menu && hamburger) {
+        menu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            menu.classList.remove('active');
+            hamburger.classList.remove('active');
+          });
+        });
+      }
+    });
   </script>
 </body>
 </html>
