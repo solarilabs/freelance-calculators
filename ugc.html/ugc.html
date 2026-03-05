@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Freelance Pricing Calculator</title>
+  <meta name="description" content="Calculate fair freelance rates based on service type, experience, and project scope." />
+  <link rel="stylesheet" href="../style.css/style.css" />
+  <style>
+    .form-section {
+      display: grid;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    
+    .form-row {
+      display: grid;
+      gap: 12px;
+    }
+    
+    @media (min-width: 720px) {
+      .form-row.two-col {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    
+    input, select {
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.12);
+      background: #ffffff;
+      color: #000000;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    /* ensure options inside selects are readable */
+    select option {
+      color: #000000;
+      background: #ffffff;
+    }
+    
+    input::placeholder {
+      color: rgba(0,0,0,0.3);
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .button {
+      flex: 1;
+      min-width: 140px;
+    }
+    
+    .button.secondary {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    
+    .button.secondary:hover {
+      background: rgba(255,255,255,0.10);
+    }
+    
+    .pricing-tiers {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    
+    @media (min-width: 720px) {
+      .pricing-tiers {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+    
+    .price-card {
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.03);
+    }
+    
+    .price-card h3 {
+      margin: 0 0 8px;
+      font-size: 13px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .price-card .amount {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 0;
+    }
+    
+    .explanation {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    
+    .copy-feedback {
+      font-size: 12px;
+      color: var(--accent);
+      margin-top: 8px;
+      display: none;
+    }
+    
+    .copy-feedback.show {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="nav">
+      <div class="brand">
+        <a href="../index.html/index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px; font-weight: 800;">← Back</a>
+      </div>
+
+      <div class="navlinks">
+        <a href="../index.html/index.html">Home</a>
+        <a href="../ugc.html/ugc.html">UGC</a>
+        <a href="../logo.html/logo.html">Logo</a>
+        <a href="../video.html/video.html">Video</a>
+        <a href="../invoice.html/invoice.html">Invoice</a>
+        <a href="../contract.html/contract.html">Contract</a>
+        <a href="../about.html/about.html">About</a>
+        <a href="../privacy.html/privacy.html">Privacy</a>
+      </div>
+    </div>
+
+    <div class="hero">
+      <h1>Freelance Pricing Calculator</h1>
+      <p>
+        Calculate fair rates based on service type, experience level, and project scope.
+        Pure math—no guessing.
+      </p>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Enter Your Project Details</h2>
+        
+        <div class="form-section">
+          <label>
+            Service Type
+            <select id="serviceType">
+              <option value="">Select a service...</option>
+              <option value="video">Video Editing</option>
+              <option value="ugc">UGC Content</option>
+              <option value="thumbnail">Thumbnail Design</option>
+              <option value="graphic">Graphic Design</option>
+              <option value="web">Web Design</option>
+              <option value="social">Social Media Management</option>
+            </select>
+          </label>
+
+          <div class="form-row two-col">
+            <label>
+              Experience Level
+              <select id="experience">
+                <option value="">Select level...</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+            </label>
+
+            <label>
+              Estimated Hours Needed
+              <input type="number" id="hours" placeholder="e.g., 10" min="0.5" step="0.5" />
+            </label>
+          </div>
+
+          <div class="form-row two-col">
+            <label>
+              Revision Rounds Included
+              <input type="number" id="revisions" placeholder="e.g., 2" min="0" step="1" />
+            </label>
+
+            <label>
+              Deadline Speed
+              <select id="deadline">
+                <option value="normal">Normal (1-2 weeks)</option>
+                <option value="rush">Rush (3-5 days, +25%)</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="button-group">
+            <button class="button" onclick="calculatePrice()">Calculate Price</button>
+            <button class="button secondary" onclick="resetForm()">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="resultsCard" style="display: none;">
+        <h2>Recommended Pricing</h2>
+        
+        <div class="pricing-tiers">
+          <div class="price-card">
+            <h3>Minimum Rate</h3>
+            <p class="amount" id="minPrice">$0</p>
+          </div>
+          <div class="price-card">
+            <h3>Fair Price</h3>
+            <p class="amount" id="fairPrice">$0</p>
+          </div>
+          <div class="price-card">
+            <h3>Premium Rate</h3>
+            <p class="amount" id="premiumPrice">$0</p>
+          </div>
+        </div>
+
+        <div class="explanation" id="explanation"></div>
+
+        <div class="button-group">
+          <button class="button secondary" onclick="copyResults()">Copy Results</button>
+        </div>
+        
+        <div class="copy-feedback" id="copyFeedback">✓ Copied to clipboard!</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      Built as a simple static site. No tracking, no login. | <a href="../about.html/about.html">About</a> | <a href="../privacy.html/privacy.html">Privacy</a>
+    </div>
+
+  </div>
+
+  <script>
+    // Base rates depending on service type and experience
+    // UGC rates are per video, others are per hour
+    const baseRates = {
+      video: {
+        beginner: 30,
+        intermediate: 60,
+        advanced: 120
+      },
+      ugc: {
+        beginner: 75,
+        intermediate: 150,
+        advanced: 300
+      },
+      thumbnail: {
+        beginner: 35,
+        intermediate: 50,
+        advanced: 70
+      },
+      graphic: {
+        beginner: 40,
+        intermediate: 60,
+        advanced: 90
+      },
+      web: {
+        beginner: 50,
+        intermediate: 80,
+        advanced: 120
+      },
+      social: {
+        beginner: 35,
+        intermediate: 55,
+        advanced: 85
+      }
+    };
+
+    // Additional revision cost per round past the first
+    const extraRevisionCost = 25;  // flat fee for each revision after the first
+
+    function calculatePrice() {
+      const serviceType = document.getElementById('serviceType').value;
+      const experience = document.getElementById('experience').value;
+      const hours = parseFloat(document.getElementById('hours').value);
+      const revisions = parseInt(document.getElementById('revisions').value) || 0;
+      const deadline = document.getElementById('deadline').value;
+
+      // Validation
+      if (!serviceType || !experience || !hours || hours <= 0) {
+        alert('Please fill in all required fields (Service Type, Experience, Hours)');
+        return;
+      }
+
+      // Determine base rate from service and experience
+      const baseRate = baseRates[serviceType][experience];
+      // laborCost either hours×rate or videos×rate depending on service semantics
+      const laborCost = baseRate * hours;
+
+      // Revision pricing: first revision free
+      const paidRevisions = Math.max(revisions - 1, 0);
+      const revisionCost = paidRevisions * extraRevisionCost;
+
+      // Calculate subtotal (labor + revisions)
+      let subtotal = laborCost + revisionCost;
+
+      // Apply rush deadline fee (+25%)
+      if (deadline === 'rush') {
+        subtotal = subtotal * 1.25;
+      }
+
+      // Calculate three price tiers
+      const minimumPrice = Math.round(subtotal);
+      const fairPrice = Math.round(subtotal * 1.2);  // 20% markup
+      const premiumPrice = Math.round(subtotal * 1.5); // 50% markup
+
+      // Display results
+      document.getElementById('minPrice').textContent = '$' + minimumPrice.toLocaleString();
+      document.getElementById('fairPrice').textContent = '$' + fairPrice.toLocaleString();
+      document.getElementById('premiumPrice').textContent = '$' + premiumPrice.toLocaleString();
+
+      // Build explanation
+      const serviceLabels = {
+        video: 'Video Editing',
+        ugc: 'UGC Content',
+        thumbnail: 'Thumbnail Design',
+        graphic: 'Graphic Design',
+        web: 'Web Design',
+        social: 'Social Media Management'
+      };
+
+      const experienceLabels = {
+        beginner: 'Beginner',
+        intermediate: 'Intermediate',
+        advanced: 'Advanced'
+      };
+
+      let explanation = `<strong>Price Calculation:</strong><br>`;
+      explanation += `Service: ${serviceLabels[serviceType]}<br>`;
+      explanation += `Experience level: ${experienceLabels[experience]}<br>`;
+      explanation += `Base rate: $${baseRate.toFixed(2)} ${serviceType === 'ugc' ? 'per video' : '/hr'}<br>`;
+      explanation += `Quantity: ${hours} ${serviceType === 'ugc' ? 'video(s)' : 'hr'}<br>`;
+      explanation += `Labor cost: $${laborCost.toFixed(2)}<br>`;
+      
+      if (revisions > 0) {
+        explanation += `Revisions included: 1<br>`;
+        explanation += `Additional revisions (${paidRevisions}) × $${extraRevisionCost} = $${revisionCost}<br>`;
+      }
+      
+      if (deadline === 'rush') {
+        explanation += `Rush fee applied: +25%<br>`;
+      }
+      
+      explanation += `<br><strong>Final subtotal:</strong> $${subtotal.toFixed(2)}<br>`;
+      explanation += `<br><strong>Price tiers:</strong><br>`;
+      explanation += `Minimum: $${minimumPrice}<br>`;
+      explanation += `Fair market: $${fairPrice}<br>`;
+      explanation += `Premium: $${premiumPrice}`;
+
+      document.getElementById('explanation').innerHTML = explanation;
+      document.getElementById('resultsCard').style.display = 'block';
+
+      // Hide copy feedback
+      document.getElementById('copyFeedback').classList.remove('show');
+    }
+
+    function resetForm() {
+      document.getElementById('serviceType').value = '';
+      document.getElementById('experience').value = '';
+      document.getElementById('hours').value = '';
+      document.getElementById('revisions').value = '';
+      document.getElementById('deadline').value = 'normal';
+      document.getElementById('resultsCard').style.display = 'none';
+      document.getElementById('copyFeedback').classList.remove('show');
+    }
+
+    function copyResults() {
+      const minPrice = document.getElementById('minPrice').textContent;
+      const fairPrice = document.getElementById('fairPrice').textContent;
+      const premiumPrice = document.getElementById('premiumPrice').textContent;
+      
+      const text = `Freelance Pricing Summary\n\nMinimum Rate: ${minPrice}\nFair Price: ${fairPrice}\nPremium Rate: ${premiumPrice}`;
+      
+      navigator.clipboard.writeText(text).then(() => {
+        const feedback = document.getElementById('copyFeedback');
+        feedback.classList.add('show');
+        setTimeout(() => feedback.classList.remove('show'), 2000);
+      });
+    }
+
+    // Allow Enter key to calculate
+    document.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        calculatePrice();
+      }
+    });
+  </script>
+</body>
+</html>

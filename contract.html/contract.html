@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Freelance Contract Generator</title>
+  <meta name="description" content="Generate a simple freelance contract agreement." />
+  <link rel="stylesheet" href="../style.css/style.css" />
+  <style>
+    /* reuse common form styles */
+    .form-section {
+      display: grid;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .form-row {
+      display: grid;
+      gap: 12px;
+    }
+
+    @media (min-width: 720px) {
+      .form-row.two-col {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    input, select, textarea {
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.12);
+      background: #ffffff;
+      color: #000000;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    select option {
+      color: #000000;
+      background: #ffffff;
+    }
+
+    textarea { min-height: 110px; resize: vertical; }
+
+    input::placeholder, textarea::placeholder { color: rgba(0,0,0,0.3); }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .button { flex: 1; min-width: 140px; }
+
+    .button.secondary { background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid rgba(255,255,255,0.12); }
+
+    .pricing-tiers { display: grid; gap: 12px; margin-top: 16px; }
+
+    .result-box {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .copy-feedback { font-size: 12px; color: var(--accent); margin-top: 8px; display: none; }
+    .copy-feedback.show { display: block; }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="nav">
+      <div class="brand">
+        <a href="../index.html/index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px; font-weight: 800;">← Back</a>
+      </div>
+      <div class="navlinks">
+        <a href="../index.html/index.html">Home</a>
+        <a href="../ugc.html/ugc.html">UGC</a>
+        <a href="../logo.html/logo.html">Logo</a>
+        <a href="../video.html/video.html">Video</a>
+        <a href="../invoice.html/invoice.html">Invoice</a>
+        <a href="../contract.html/contract.html">Contract</a>
+        <a href="../about.html/about.html">About</a>
+        <a href="../privacy.html/privacy.html">Privacy</a>
+      </div>
+    </div>
+
+    <div class="hero">
+      <h1>Freelance Contract Generator</h1>
+      <p>Generate a simple freelance agreement you can copy and send.</p>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Contract Details</h2>
+        <div class="form-section">
+          <label>
+            Freelancer Name
+            <input type="text" id="freelancer" placeholder="Your name" />
+          </label>
+
+          <label>
+            Client Name
+            <input type="text" id="client" placeholder="Client name" />
+          </label>
+
+          <label>
+            Project Description
+            <textarea id="project" placeholder="Describe the work to be performed"></textarea>
+          </label>
+
+          <div class="form-row two-col">
+            <label>
+              Payment Amount
+              <input type="number" id="amount" placeholder="e.g., 1500" min="0" step="0.01" />
+            </label>
+
+            <label>
+              Deadline
+              <input type="date" id="deadline" />
+            </label>
+          </div>
+
+          <label>
+            Revision Rounds Allowed
+            <input type="number" id="revisions" placeholder="e.g., 2" min="0" step="1" />
+          </label>
+
+          <div class="button-group">
+            <button class="button" onclick="generateContract()">Generate Contract</button>
+            <button class="button secondary" onclick="resetForm()">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" id="contractCard" style="display:none;">
+        <h2>Contract</h2>
+        <div class="result-box" id="contractBox"></div>
+
+        <div class="button-group">
+          <button class="button secondary" onclick="copyContract()">Copy Contract</button>
+        </div>
+        <div class="copy-feedback" id="copyFeedback">✓ Copied to clipboard!</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      Built as a simple static site. No tracking, no login. | <a href="../about.html/about.html">About</a> | <a href="../privacy.html/privacy.html\">Privacy</a>
+    </div>
+  </div>
+
+  <script>
+    function generateContract() {
+      const freelancer = document.getElementById('freelancer').value.trim();
+      const client = document.getElementById('client').value.trim();
+      const project = document.getElementById('project').value.trim();
+      const amount = parseFloat(document.getElementById('amount').value);
+      const deadline = document.getElementById('deadline').value;
+      const revisions = parseInt(document.getElementById('revisions').value) || 0;
+
+      if (!freelancer || !client || !project || !amount || !deadline) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+
+      // Simple payment terms
+      const paymentTerms = 'Payment due within 14 days of invoice unless otherwise agreed.';
+
+      const ownership = 'Upon full payment, the Freelancer transfers ownership of the final deliverables to the Client. The Freelancer may retain portfolio rights unless explicitly waived in writing.';
+
+      const contractText =
+`Freelance Agreement\n\nFreelancer: ${freelancer}\nClient: ${client}\n\nProject Description:\n${project}\n\nPayment Amount: $${amount.toFixed(2)}\nDeadline: ${deadline}\nRevision rounds allowed: ${revisions}\n\nPayment Terms:\n${paymentTerms}\n\nOwnership:\n${ownership}\n\nSignatures:\n\nFreelancer: ______________________    Date: _________\n\nClient: _________________________    Date: _________`;
+
+      document.getElementById('contractBox').textContent = contractText;
+      document.getElementById('contractCard').style.display = 'block';
+      document.getElementById('copyFeedback').classList.remove('show');
+    }
+
+    function resetForm() {
+      document.getElementById('freelancer').value = '';
+      document.getElementById('client').value = '';
+      document.getElementById('project').value = '';
+      document.getElementById('amount').value = '';
+      document.getElementById('deadline').value = '';
+      document.getElementById('revisions').value = '';
+      document.getElementById('contractCard').style.display = 'none';
+      document.getElementById('copyFeedback').classList.remove('show');
+    }
+
+    function copyContract() {
+      const text = document.getElementById('contractBox').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const fb = document.getElementById('copyFeedback');
+        fb.classList.add('show');
+        setTimeout(() => fb.classList.remove('show'), 2000);
+      });
+    }
+
+    document.addEventListener('keypress', (e) => { if (e.key === 'Enter') generateContract(); });
+  </script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Freelance Invoice Generator</title>
+  <meta name="description" content="Generate a simple freelance invoice summary." />
+  <link rel="stylesheet" href="../style.css/style.css" />
+  <style>
+    /* reuse common form styles */
+    .form-section {
+      display: grid;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .form-row {
+      display: grid;
+      gap: 12px;
+    }
+
+    @media (min-width: 720px) {
+      .form-row.two-col {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    input, select {
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.12);
+      background: #ffffff;
+      color: #000000;
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    select option {
+      color: #000000;
+      background: #ffffff;
+    }
+
+    input::placeholder {
+      color: rgba(0,0,0,0.3);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .button.secondary {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .button.secondary:hover {
+      background: rgba(255,255,255,0.10);
+    }
+
+    .invoice-box {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .copy-feedback {
+      font-size: 12px;
+      color: var(--accent);
+      margin-top: 8px;
+      display: none;
+    }
+
+    .copy-feedback.show {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="nav">
+      <div class="brand">
+        <a href="../index.html/index.html" style="text-decoration: none; display: flex; align-items: center; gap: 10px; font-weight: 800;">← Back</a>
+      </div>
+      <div class="navlinks">
+        <a href="../index.html/index.html">Home</a>
+        <a href="../ugc.html/ugc.html">UGC</a>
+        <a href="../logo.html/logo.html">Logo</a>
+        <a href="../video.html/video.html">Video</a>
+        <a href="../invoice.html/invoice.html">Invoice</a>
+        <a href="../contract.html/contract.html">Contract</a>
+        <a href="../about.html/about.html">About</a>
+        <a href="../privacy.html/privacy.html">Privacy</a>
+      </div>
+    </div>
+
+    <div class="hero">
+      <h1>Freelance Invoice Generator</h1>
+      <p>Enter details to create a simple invoice summary.</p>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Invoice Details</h2>
+        <div class="form-section">
+          <label>
+            Freelancer Name
+            <input type="text" id="freelancer" placeholder="Your name" />
+          </label>
+          <label>
+            Client Name
+            <input type="text" id="client" placeholder="Client name" />
+          </label>
+          <label>
+            Project Name
+            <input type="text" id="project" placeholder="Project description" />
+          </label>
+          <div class="form-row two-col">
+            <label>
+              Hours Worked
+              <input type="number" id="hours" placeholder="e.g., 10" min="0" step="0.1" />
+            </label>
+            <label>
+              Hourly Rate
+              <input type="number" id="rate" placeholder="e.g., 50" min="0" step="0.01" />
+            </label>
+          </div>
+          <label>
+            Extra Costs (optional)
+            <input type="number" id="extra" placeholder="e.g., 100" min="0" step="0.01" />
+          </label>
+          <div class="button-group">
+            <button class="button" onclick="generateInvoice()">Generate Invoice</button>
+            <button class="button secondary" onclick="resetForm()">Reset</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" id="invoiceCard" style="display:none;">
+        <h2>Invoice Summary</h2>
+        <div class="invoice-box" id="invoiceBox"></div>
+        <div class="button-group">
+          <button class="button secondary" onclick="copyInvoice()">Copy Invoice</button>
+        </div>
+        <div class="copy-feedback" id="copyFeedback">✓ Copied to clipboard!</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      Built as a simple static site. No tracking, no login. | <a href="../about.html/about.html">About</a> | <a href="../privacy.html/privacy.html">Privacy</a>
+    </div>
+  </div>
+
+  <script>
+    function generateInvoice() {
+      const freelancer = document.getElementById('freelancer').value.trim();
+      const client = document.getElementById('client').value.trim();
+      const project = document.getElementById('project').value.trim();
+      const hours = parseFloat(document.getElementById('hours').value);
+      const rate = parseFloat(document.getElementById('rate').value);
+      const extra = parseFloat(document.getElementById('extra').value) || 0;
+
+      if (!freelancer || !client || !project || !hours || !rate) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+
+      const total = hours * rate + extra;
+      const invoiceText =
+`Freelance Invoice\n
+Freelancer: ${freelancer}\nClient: ${client}\nProject: ${project}\n\nHours: ${hours}\nRate: $${rate.toFixed(2)}\n` +
+(extra > 0 ? `Extra costs: $${extra.toFixed(2)}\n` : '') +
+`\nTotal Amount Due: $${total.toFixed(2)}`;
+
+      document.getElementById('invoiceBox').textContent = invoiceText;
+      document.getElementById('invoiceCard').style.display = 'block';
+      document.getElementById('copyFeedback').classList.remove('show');
+    }
+
+    function resetForm() {
+      document.getElementById('freelancer').value = '';
+      document.getElementById('client').value = '';
+      document.getElementById('project').value = '';
+      document.getElementById('hours').value = '';
+      document.getElementById('rate').value = '';
+      document.getElementById('extra').value = '';
+      document.getElementById('invoiceCard').style.display = 'none';
+      document.getElementById('copyFeedback').classList.remove('show');
+    }
+
+    function copyInvoice() {
+      const text = document.getElementById('invoiceBox').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const fb = document.getElementById('copyFeedback');
+        fb.classList.add('show');
+        setTimeout(() => fb.classList.remove('show'), 2000);
+      });
+    }
+
+    document.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') generateInvoice();
+    });
+  </script>
+</body>
+</html>
